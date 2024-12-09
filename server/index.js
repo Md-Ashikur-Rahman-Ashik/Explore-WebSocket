@@ -1,24 +1,17 @@
-// import express from "express";
 import { WebSocketServer } from "ws";
 
-// const app = express();
-// const port = 3000;
+const wss = new WebSocketServer({ port: 8082 });
 
-// const server = app.listen(port, () => {
-//   console.log("Server is listening...");
-// });
+wss.on("connection", (ws) => {
+  console.log("New client connected!");
 
-const server = new WebSocketServer.Server({ port: "8080" });
+  ws.on("message", (data) => {
+    console.log(`Client has sent us : ${data}`);
 
-server.on("connection", (socket) => {
-  socket.on("message", (message) => {
-    socket.send(`Roger that! ${message}`);
+    ws.send(data.toUpperCase());
+  });
+
+  ws.on("close", () => {
+    console.log("Client has disconnected!");
   });
 });
-
-// wss.on("connection", (ws) => {
-//   ws.on("message", (data) => {
-//     console.log("Data from client : ", data);
-//     ws.send("Jajak Allah Khayran");
-//   });
-// });
