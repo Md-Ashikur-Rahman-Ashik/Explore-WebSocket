@@ -8,7 +8,15 @@ wss.on("connection", (ws) => {
   ws.on("message", (data) => {
     console.log(`Client has sent us : ${data}`);
 
-    ws.send(data.toUpperCase());
+    // console.log("Received data type: ", data.toString("utf8"));
+    const actualData = data.toString("utf8");
+
+    ws.send(actualData.toUpperCase());
+    // try {
+    //   ws.send(String(data.toUpperCase()));
+    // } catch (error) {
+    //   console.log("We got this error", error);
+    // }
   });
 
   ws.on("close", () => {
